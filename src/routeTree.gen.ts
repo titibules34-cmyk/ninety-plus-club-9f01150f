@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as AuthenticatedBalancaRouteImport } from './routes/_authenticated/balanca'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
 
@@ -29,6 +30,11 @@ const SetupRoute = SetupRouteImport.update({
   path: '/setup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedBalancaRoute = AuthenticatedBalancaRouteImport.update({
+  id: '/balanca',
+  path: '/balanca',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -43,12 +49,14 @@ const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
+  '/balanca': typeof AuthenticatedBalancaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/users': typeof AuthenticatedUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/setup': typeof SetupRoute
+  '/balanca': typeof AuthenticatedBalancaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/users': typeof AuthenticatedUsersRoute
 }
@@ -57,19 +65,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/setup': typeof SetupRoute
+  '/_authenticated/balanca': typeof AuthenticatedBalancaRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/users': typeof AuthenticatedUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/setup' | '/dashboard' | '/users'
+  fullPaths: '/' | '/setup' | '/balanca' | '/dashboard' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/setup' | '/dashboard' | '/users'
+  to: '/' | '/setup' | '/balanca' | '/dashboard' | '/users'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/setup'
+    | '/_authenticated/balanca'
     | '/_authenticated/dashboard'
     | '/_authenticated/users'
   fileRoutesById: FileRoutesById
@@ -103,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/balanca': {
+      id: '/_authenticated/balanca'
+      path: '/balanca'
+      fullPath: '/balanca'
+      preLoaderRoute: typeof AuthenticatedBalancaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -121,11 +138,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedBalancaRoute: typeof AuthenticatedBalancaRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedUsersRoute: typeof AuthenticatedUsersRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedBalancaRoute: AuthenticatedBalancaRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedUsersRoute: AuthenticatedUsersRoute,
 }

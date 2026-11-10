@@ -91,6 +91,15 @@
   --dlg-focus: oklch(0.45 0.15 270);
   --dlg-radio: oklch(0.45 0.05 200);
   --dlg-ok: oklch(0.5 0.12 150);
+  --hier-teal: oklch(0.45 0.07 195);
+  --hier-root: oklch(0.9 0.03 210);
+  --hier-root-text: oklch(0.45 0.08 195);
+  --hier-stripe: oklch(0.96 0.005 230);
+  --hier-legend: oklch(0.82 0.03 190);
+  --hier-aktiv: oklch(0.62 0.12 175);
+  --hier-bllokuar: oklch(0.6 0.2 27);
+  --hier-mbyllur: oklch(0.2 0 0);
+  --hier-nav-active: oklch(0.65 0.07 200);
   --radius: 0.5rem;
   --background: oklch(0.17 0.03 155);
   --foreground: oklch(0.97 0.01 140);
@@ -263,3 +272,50 @@
 .dlg-btn:hover { background: oklch(0.88 0 0); }
 .dlg-btn-primary { color: var(--dlg-blue); }
 .dlg-btn:disabled { opacity: .6; }
+
+/* Balancë & Overdraft — hierarchy table */
+.hier-head { background: var(--adm-head); padding: 8px 8px 14px; display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid var(--adm-th); }
+.hier-name { font-size: 22px; font-weight: 700; color: var(--adm-accent); }
+.hier-select { display: inline-flex; align-items: center; gap: 12px; font-size: 17px; color: oklch(0.2 0 0); padding-left: 6px; }
+.hier-select select { min-width: 225px; border: 0; border-bottom: 1px solid oklch(0.5 0 0); background: transparent; padding: 4px 2px; font-size: 17px; color: oklch(0.2 0 0); cursor: pointer; }
+.hier-card { background: var(--adm-head); padding: 10px 10px 14px; }
+.hier-toolbar { display: flex; align-items: center; gap: 36px; margin-bottom: 10px; }
+.hier-toolbar h3 { font-size: 22px; font-weight: 700; color: oklch(0.32 0.04 235); }
+.hier-download { margin-left: auto; width: 44px; height: 32px; border-radius: 3px; background: var(--hier-teal); color: var(--adm-panel); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.hier-scroll { overflow-x: auto; }
+.hier-table { width: 100%; border-collapse: collapse; font-size: 17px; color: oklch(0.2 0 0); }
+.hier-table th { background: var(--adm-th); font-weight: 700; padding: 8px; color: oklch(0.32 0.04 235); border-left: 1px solid var(--adm-head); text-align: center; }
+.hier-table th button { display: inline-flex; align-items: center; justify-content: center; width: 100%; font-weight: 700; color: inherit; cursor: pointer; }
+.hier-user-col { width: 28%; }
+.hier-sort { margin-left: auto; font-size: 22px; color: oklch(0.6 0 0); }
+.hier-sort.is-active { color: oklch(0.32 0.04 235); }
+.hier-table td { padding: 7px 12px; text-align: right; border-left: 1px solid var(--adm-head); }
+.hier-table td.hier-user-col { text-align: left; padding: 0; }
+.hier-root { background: var(--hier-root); font-weight: 700; color: var(--hier-root-text); border-bottom: 2px solid oklch(0.4 0.05 235); }
+.hier-root-cell { display: flex; align-items: center; gap: 2px; padding: 6px 8px; }
+.hier-caret { display: flex; color: oklch(0.25 0.03 235); cursor: pointer; }
+.hier-caret .material-icons { font-size: 30px; }
+.hier-edit { margin-left: auto; color: oklch(0.4 0.02 235); display: flex; }
+.hier-row:nth-child(odd) { background: var(--adm-panel); }
+.hier-row:nth-child(even) { background: var(--hier-stripe); }
+.hier-row td.hier-user-col { border-left: 4px solid var(--hier-aktiv); }
+.hier-row.is-bllokuar td.hier-user-col { border-left-color: var(--hier-bllokuar); }
+.hier-row.is-mbyllur td.hier-user-col { border-left-color: var(--hier-mbyllur); }
+.hier-child { display: block; width: 100%; text-align: left; padding: 7px 10px; color: oklch(0.2 0 0); cursor: pointer; }
+.hier-child:hover { color: var(--adm-accent); text-decoration: underline; }
+.hier-empty { text-align: center !important; color: oklch(0.5 0 0); padding: 14px !important; background: var(--adm-panel); }
+.hier-legend { display: flex; gap: 32px; background: var(--hier-legend); padding: 8px 30px; }
+.hier-check { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; color: oklch(0.2 0 0); cursor: pointer; }
+.hier-check input { appearance: none; width: 22px; height: 22px; border-radius: 2px; background: var(--adm-panel); border: 2px solid var(--hier-aktiv); display: grid; place-content: center; cursor: pointer; }
+.hier-check input::before { content: "✓"; color: var(--adm-panel); font-size: 16px; font-weight: 700; transform: scale(0); }
+.hier-check input:checked { background: var(--hier-aktiv); }
+.hier-check input:checked::before { transform: scale(1); }
+.hier-check.is-bllokuar input { border-color: var(--hier-bllokuar); }
+.hier-check.is-bllokuar input:checked { background: var(--hier-bllokuar); }
+.hier-check.is-mbyllur input { border-color: var(--hier-mbyllur); }
+.hier-check.is-mbyllur input:checked { background: var(--hier-mbyllur); }
+.adm-nav a.is-active { background: var(--hier-nav-active); padding: 10px 20px; border-radius: 3px; }
+.adm-status { display: inline-block; padding: 2px 10px; border-radius: 3px; color: var(--adm-panel); font-size: 15px; background: var(--hier-aktiv); }
+.adm-status.is-bllokuar { background: var(--hier-bllokuar); }
+.adm-status.is-mbyllur { background: var(--hier-mbyllur); }
+@media (max-width: 900px) { .hier-toolbar { flex-wrap: wrap; gap: 12px; } .hier-select select { min-width: 140px; } }
