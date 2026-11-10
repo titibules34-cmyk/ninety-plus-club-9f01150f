@@ -68,7 +68,7 @@ function Dashboard() {
           <thead><tr><th></th><th>Balanca</th><th>Overdrafti</th><th>Në Pritje</th><th>Të Disponueshme</th></tr></thead>
           <tbody>
             <tr><td>Lek</td>
-              {editing ? (["balance", "overdraft", "pending"].map((k) => (
+              {editing ? ((["balance", "overdraft", "pending"] as const).map((k) => (
                 <td key={k}><input className="adm-input" value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} /></td>
               ))) : (<><td>{fmt(p?.balance ?? 0)}</td><td>{fmt(p?.overdraft ?? 0)}</td><td>{fmt(p?.pending ?? 0)}</td></>)}
               <td>{fmt(available)}</td></tr>
