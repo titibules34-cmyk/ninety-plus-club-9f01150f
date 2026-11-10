@@ -87,6 +87,10 @@
   --adm-th: oklch(0.87 0.02 225);
   --adm-text: oklch(0.38 0.04 230);
   --adm-accent: oklch(0.6 0.07 235);
+  --dlg-blue: oklch(0.45 0.08 240);
+  --dlg-focus: oklch(0.45 0.15 270);
+  --dlg-radio: oklch(0.45 0.05 200);
+  --dlg-ok: oklch(0.5 0.12 150);
   --radius: 0.5rem;
   --background: oklch(0.17 0.03 155);
   --foreground: oklch(0.97 0.01 140);
@@ -231,3 +235,31 @@
 .adm-err { color: var(--destructive); font-size: 14px; margin: 8px 6px; }
 .adm-link { color: var(--adm-accent); font-weight: 700; }
 @media (max-width: 900px) { .adm-nav a { display: none; } .adm-nav { gap: 16px; } .adm-row { grid-template-columns: 1fr; } .adm-form { grid-template-columns: 1fr; } .adm-search { width: 180px; } }
+
+/* Create account dialogs (Shto Përdorues / Tipi i Menaxherit) */
+.dlg-overlay { position: fixed; inset: 0; z-index: 50; background: oklch(0 0 0 / .45); display: flex; align-items: center; justify-content: center; padding: 16px; font-family: Arial, Helvetica, sans-serif; }
+.dlg { width: 100%; max-width: 500px; background: var(--adm-panel); color: var(--adm-text); border-radius: 6px; padding: 30px 30px 26px; box-shadow: 0 10px 40px oklch(0 0 0 / .3); }
+.dlg-title { font-size: 24px; font-weight: 700; color: var(--dlg-blue); margin-bottom: 16px; }
+.dlg-parent { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 700; color: var(--dlg-blue); margin-bottom: 18px; }
+.dlg-parent-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--adm-accent); color: var(--adm-panel); display: flex; align-items: center; justify-content: center; }
+.dlg-parent-icon .material-icons { font-size: 22px; }
+.dlg-radios { display: flex; gap: 14px; align-items: center; margin-bottom: 8px; }
+.dlg-radio { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: oklch(0.25 0.02 230); cursor: pointer; line-height: 1.2; }
+.dlg-radio input { appearance: none; width: 24px; height: 24px; flex: none; border: 2px solid oklch(0.45 0 0); border-radius: 50%; display: grid; place-content: center; cursor: pointer; }
+.dlg-radio input::before { content: ""; width: 12px; height: 12px; border-radius: 50%; transform: scale(0); background: var(--dlg-radio); transition: transform .12s; }
+.dlg-radio input:checked { border-color: var(--dlg-radio); }
+.dlg-radio input:checked::before { transform: scale(1); }
+.dlg-field { position: relative; display: block; padding-top: 22px; margin-bottom: 14px; }
+.dlg-field input { width: 100%; border: 0; border-bottom: 1px solid oklch(0.6 0 0); padding: 6px 0; font-size: 16px; outline: none; background: transparent; color: var(--adm-text); }
+.dlg-field input:focus { border-bottom: 2px solid var(--dlg-focus); }
+.dlg-field span { position: absolute; left: 0; top: 28px; font-size: 16px; color: oklch(0.5 0 0); pointer-events: none; transition: all .15s; }
+.dlg-field input:focus + span, .dlg-field input:not(:placeholder-shown) + span { top: 4px; font-size: 12px; }
+.dlg-field input:focus + span { color: var(--dlg-focus); }
+.dlg-msg { font-size: 14px; margin: 4px 0 0; }
+.dlg-msg-err { color: var(--destructive); }
+.dlg-msg-ok { color: var(--dlg-ok); font-weight: 700; }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.dlg-btn { background: oklch(0.92 0 0); color: oklch(0.25 0.02 230); font-weight: 700; font-size: 16px; padding: 10px 14px; border-radius: 4px; cursor: pointer; }
+.dlg-btn:hover { background: oklch(0.88 0 0); }
+.dlg-btn-primary { color: var(--dlg-blue); }
+.dlg-btn:disabled { opacity: .6; }

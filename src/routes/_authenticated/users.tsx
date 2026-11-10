@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AdminShell } from "@/components/AdminShell";
 import { createUserAsAdmin } from "@/lib/admin.functions";
 import { useMe } from "@/lib/use-me";
+import { ALL_ROLES, ROLE_LABELS, type AppRole } from "@/lib/roles";
 
 export const Route = createFileRoute("/_authenticated/users")({
   head: () => ({ meta: [{ title: "Përdoruesit — 90Plus" }, { name: "robots", content: "noindex" }] }),
@@ -21,7 +22,7 @@ function Users() {
     enabled: !!me?.isAdmin,
     queryFn: async () => (await supabase.from("profiles").select("id, username, full_name, balance").order("created_at", { ascending: false })).data ?? [],
   });
-  const [f, setF] = useState({ username: "", password: "", fullName: "", role: "user" as "user" | "admin" });
+  const [f, setF] = useState({ username: "", password: "", fullName: "", role: "user" as AppRole });
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -43,11 +44,11 @@ function Users() {
       <section className="adm-card">
         <h3>Krijo Përdorues</h3>
         <form className="adm-form" onSubmit={submit}>
-          <input className="adm-input" placeholder="Username" value={f.username} onChange={(e) => setF({ ...f, username: e.target.value })} required />
-          <input className="adm-input" placeholder="Password" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} required />
+          <input className="adm-input" placeholder="Përdorues" value={f.username} onChange={(e) => setF({ ...f, username: e.target.value })} required />
+          <input className="adm-input" placeholder="Fjalëkalim" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} required />
           <input className="adm-input" placeholder="Emër, Mbiemër" value={f.fullName} onChange={(e) => setF({ ...f, fullName: e.target.value })} />
-          <select className="adm-input" value={f.role} onChange={(e) => setF({ ...f, role: e.target.value as "user" | "admin" })}>
-            <option value="user">Përdorues</option><option value="admin">Admin</option>
+          <select className="adm-input" value={f.role} onChange={(e) => setF({ ...f, role: e.target.value as AppRole })}>
+            {ALL_ROLES.map((r) => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
           </select>
           <button className="adm-btn" disabled={busy}>Krijo</button>
         </form>
@@ -55,7 +56,7 @@ function Users() {
       </section>
       <section className="adm-card">
         <table className="adm-table">
-          <thead><tr><th>Username</th><th>Emër, Mbiemër</th><th>Balanca (Lek)</th></tr></thead>
+          <thead><tr><th>Përdorues</th><th>Emër, Mbiemër</th><th>Balanca (Lek)</th></tr></thead>
           <tbody>
             {users?.map((u) => (
               <tr key={u.id}>

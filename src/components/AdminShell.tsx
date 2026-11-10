@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/use-me";
+import { CreateAccountDialog } from "@/components/CreateAccountDialog";
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const { data: me } = useMe();
@@ -16,6 +17,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
     queryFn: async () => (await supabase.from("profiles").select("id, username").ilike("username", `%${q.trim()}%`).limit(8)).data ?? [],
   });
   const name = me?.profile?.username ?? "";
+  const [dialog, setDialog] = useState<null | "user" | "manager">(null);
+  // New accounts go under the account being viewed (dashboard ?u=), or under the signed-in admin.
+  const viewedId = useRouterState({ select: (s) => (s.location.search as { u?: string }).u });
+  const { data: viewed } = useQuery({
+    queryKey: ["profile-name", viewedId],
+    enabled: !!viewedId,
+    queryFn: async () => (await supabase.from("profiles").select("id, username").eq("id", viewedId!).maybeSingle()).data,
+  });
+  const parent = viewed ?? (me ? { id: me.id, username: name } : null);
 
   async function signOut() {
     await qc.cancelQueries(); qc.clear();
@@ -55,12 +65,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
         <Link to="/dashboard" search={{ u: undefined }} className="adm-avatar">{name.charAt(0).toUpperCase() || "A"}</Link>
         {me?.isAdmin && (
           <>
-            <Link to="/users" title="Krijo përdorues" className="adm-side-btn"><i className="material-icons">group_add</i></Link>
-            <Link to="/users" title="Përdoruesit" className="adm-side-btn"><i className="material-icons">person_add</i></Link>
+            <button type="button" onClick={() => setDialog("manager")} title="Shto Menaxher" aria-label="Shto Menaxher" className="adm-side-btn"><i className="material-icons">group_add</i></button>
+            <button type="button" onClick={() => setDialog("user")} title="Shto Përdorues" aria-label="Shto Përdorues" className="adm-side-btn"><i className="material-icons">person_add</i></button>
+            <Link to="/users" title="Përdoruesit" aria-label="Përdoruesit" className="adm-side-btn"><i className="material-icons">list</i></Link>
           </>
         )}
       </aside>
       <main className="adm-main">{children}</main>
+      {dialog && parent && (
+        <CreateAccountDialog key={dialog} kind={dialog} parentId={parent.id} parentName={parent.username} onClose={() => setDialog(null)} />
+      )}
     </div>
   );
 }
