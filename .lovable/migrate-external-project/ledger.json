@@ -1,0 +1,9 @@
+[
+ {"capability":"code","source":"github titibules34-cmyk/ninety-plus-club","outcome":"migrate","status":"verified","next_action":""},
+ {"capability":"schema","source":"drizzle/migrations/0000_profiles_roles.sql","outcome":"migrate","status":"verified","next_action":""},
+ {"capability":"records","source":"previous Lovable Cloud backend","outcome":"migrate","status":"pending","next_action":"user provides export of profiles/user_roles or skips"},
+ {"capability":"auth identities","source":"username+password accounts","outcome":"migrate","status":"pending","next_action":"user creates admin via /setup; old accounts need export or re-creation"},
+ {"capability":"authorization","source":"user_roles + has_role RLS","outcome":"migrate","status":"verified","next_action":""},
+ {"capability":"secrets","source":"none beyond backend keys","outcome":"none","status":"verified","next_action":""},
+ {"capability":"verification","source":"setup, login, balance edit, create user","outcome":"verify","status":"verified","next_action":"test records removed"}
+]
