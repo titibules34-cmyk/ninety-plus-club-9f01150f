@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { MANAGER_ROLES } from "@/lib/roles";
 
 export function useMe() {
   return useQuery({
@@ -11,7 +12,10 @@ export function useMe() {
         supabase.from("profiles").select("*").eq("id", id).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", id),
       ]);
-      return { id, profile, isAdmin: !!roles?.some((r) => r.role === "admin") };
+      const list = roles?.map((r) => r.role) ?? [];
+      const isAdmin = list.includes("admin");
+      const isManager = list.some((r) => (MANAGER_ROLES as readonly string[]).includes(r));
+      return { id, profile, roles: list, isAdmin, isManager };
     },
   });
 }
