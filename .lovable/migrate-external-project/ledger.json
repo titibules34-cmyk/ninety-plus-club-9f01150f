@@ -1,0 +1,9 @@
+[
+ {"capability":"code","source":"github titibules34-cmyk/ninety-plus-club","outcome":"migrate","status":"in_progress","next_action":"copy routes, components, styles"},
+ {"capability":"schema","source":"drizzle/migrations/0000_profiles_roles.sql","outcome":"migrate","status":"in_progress","next_action":"apply migration to Lovable Cloud"},
+ {"capability":"records","source":"previous Lovable Cloud backend","outcome":"migrate","status":"pending","next_action":"user exports profiles/user_roles or recreates accounts"},
+ {"capability":"auth identities","source":"username+password accounts","outcome":"migrate","status":"pending","next_action":"user recreates admin via /setup and users via admin panel, or provides export"},
+ {"capability":"authorization","source":"user_roles + has_role RLS","outcome":"migrate","status":"in_progress","next_action":"verify admin vs user access"},
+ {"capability":"secrets","source":"none beyond backend keys","outcome":"none","status":"verified","next_action":""},
+ {"capability":"verification","source":"","outcome":"verify","status":"pending","next_action":"login + dashboard check"}
+]
